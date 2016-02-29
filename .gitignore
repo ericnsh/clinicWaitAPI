@@ -36,4 +36,4 @@ node_modules
 .idea/*
 
 # common config & api keys
-common.js
+config.js
