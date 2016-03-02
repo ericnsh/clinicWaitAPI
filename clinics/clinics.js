@@ -14,21 +14,23 @@ function queryGooglePlacesDetails(url, location, callback){
             if(!error && response.statusCode === 200){
                 var returnedClinic = JSON.parse(body);
                 if(returnedClinic.result){
-                    clinicBuilder.convertToClinic(JSON.parse(body), location, function(err, clinic){
-                        if(!err){
-                            callback(null, clinic)
+                    clinicBuilder.convertToClinic(returnedClinic, location, function(conversionError, clinic){
+                        if(conversionError){
+                            console.error('conversion error on clinics.js details');
+                            return callback({name : 'CONVERSION_ERROR'});
                         }
                         else{
-                            callback({name : 'CONVERSION_ERROR'}, clinic)
+                            return callback(null, clinic);
                         }
                     });
                 }
                 else{
-                    callback({name : 'CLINIC_NOT_FOUND'}, null);
+                    return callback({name : 'CLINIC_NOT_FOUND'});
                 }
             }
-            else {
-                callback({name : 'REQUEST_ERROR'}, null);
+            else{
+                console.error('request error on clinics.js details');
+                return callback({name : 'REQUEST_ERROR'});
             }
         });
 }
@@ -38,21 +40,21 @@ function queryGooglePlacesSearch(url, location, callback){
             uri : url,
             method : 'GET'
         },
-        function(error, response, body) {
+        function(error, response, body){
             if(!error && response.statusCode === 200){
-                clinicBuilder.convertToClinicList(JSON.parse(body), location, function(err, clinics){
-                    if(!err){
-                        callback(null, clinics);
+                clinicBuilder.convertToClinicList(JSON.parse(body), location, function(conversionError, clinics){
+                    if(conversionError){
+                        console.error('conversion error on clinics.js search');
+                        return callback({name : 'CONVERSION_ERROR'});
                     }
-                    else {
-                        console.log('conversion error on clinics.js')
-                        callback({name : 'CONVERSION_ERROR'}, clinics);
+                    else{
+                        return callback(null, clinics);
                     }
                 });
             }
-            else {
-                console.log('request error on clinics.js');
-                callback({name : 'REQUEST_ERROR'}, null);
+            else{
+                console.error('request error on clinics.js search');
+                return callback({name : 'REQUEST_ERROR'});
             }
         });
 }
