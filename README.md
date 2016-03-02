@@ -31,7 +31,7 @@ module.exports = {
 Now, make the following command to install all dependencies (make sure Node.js and npm are installed on your machine before).
 
 ```bat
-gulp build
+npm install
 ```
 
 and to finish start the app with the following
