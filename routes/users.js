@@ -51,3 +51,33 @@ exports.findById = function(req,res){
        }
     });
 }
+
+exports.findByEmail = function(req, res){
+    users.findByEmail(req.query.email, function(err, user){
+        if(!err){
+           if(user){
+               res.status(200).send(user);
+           }
+           else{
+               res.status(404).send({
+                   errorCode: 'USER_NOT_FOUND',
+                   message: 'User with email ' + req.query.email + ' was not found'
+               });
+           }
+       }
+       else{
+           if(err.name === 'USER_NOT_FOUND'){
+               res.status(404).send({
+                   errorCode: 'USER_NOT_FOUND',
+                   message: 'User with email ' + req.query.email + ' was not found'
+               });
+           }
+           else{
+               res.status(500).send({
+                   errorCode: 'INTERNAL_ERROR',
+                   message: 'please try again or contact the admin if problem persists'
+               });
+           }
+       }
+    });
+}
