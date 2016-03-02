@@ -8,30 +8,33 @@ const collectionURL = config.AZURE_USERS_COLLECTION_URL;
 
 function queryClient(query, callback){
     var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
-    client.queryDocuments(collectionURL, query).toArray( function(err, results){
+    client.queryDocuments(collectionURL, query).toArray(function(err, results){
         if(!err){
             if(results[0]){
-                converter.convertToDTO(results[0], function(err,user){
-                    if(err){
-                        console.error('error while converting user with id '+ createdUser.id + ' to DTO');
+                converter.convertToDTO(results[0], function(conversionError,user){
+                    if(conversionError){
+                        console.error('error while converting user with id '+ createdUser.id + ' to DTO')
+                        return callback({name : 'CONVERSION_ERROR'});
                     }
-                    callback(null, user);
+                    else{
+                        return callback(null, user);
+                    }
                 });
             }
             else{
-                callback(null, null);
+                return callback({name : 'USER_NOT_FOUND'});
             }
         }
         else{
-            console.log('caught on users.js getUserById : ');
+            console.error('request error on users.js getUserById : ');
             console.error(err);
-            callback(err, null);
+            return callback(err);
         }
     });
 }
 
-function add(user, callback){
-    converter.convertToUser(user, function(conversionError, convertedUser){
+function add(body, callback){
+    converter.convertToUser(body, function(conversionError, convertedUser){
         if(!conversionError){
             var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
             client.createDocument(collectionURL, convertedUser, function(creationError, createdUser){
@@ -39,21 +42,24 @@ function add(user, callback){
                     converter.convertToDTO(createdUser, function(err, dto){
                         if(err){
                             console.error('error while converting user with id '+ createdUser.id + ' to DTO');
+                            return callback({name : 'DTO_CONVERSION_ERROR'});
                         }
-                        callback(null, dto);
+                        else{
+                            return callback(null, dto);
+                        }
                     });
                 }
                 else{
-                    console.log('caught on user creation : ');
+                    console.error('caught on user creation : ');
                     console.error(creationError);
-                    callback(creationError, null);
+                    callback({name : 'DB_CONNECTION_ERROR'});
                 }
             });
         }
         else{
-            console.log('caught on user conversion during creation : ');
+            console.error('caught on user conversion during creation : ');
             console.error(conversionError);
-            callback(conversionError, null);
+            callback({name : 'CONVERSION_ERROR'});
         }
     });
 }

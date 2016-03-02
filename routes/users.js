@@ -31,15 +31,23 @@ exports.findById = function(req,res){
            else{
                res.status(404).send({
                    errorCode: 'USER_NOT_FOUND',
-                   message: 'User with id = ' + id + ' was not found'
+                   message: 'User with id ' + req.params.id + ' was not found'
                });
            }
        }
        else{
-           res.status(500).send({
-               errorCode: 'INTERNAL_ERROR',
-               message: 'please try again or contact the admin if problem persists'
-           });
+           if(err.name === 'USER_NOT_FOUND'){
+               res.status(404).send({
+                   errorCode: 'USER_NOT_FOUND',
+                   message: 'User with id ' + req.params.id + ' was not found'
+               });
+           }
+           else{
+               res.status(500).send({
+                   errorCode: 'INTERNAL_ERROR',
+                   message: 'please try again or contact the admin if problem persists'
+               });
+           }
        }
     });
 }

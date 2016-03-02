@@ -10,7 +10,7 @@ exports.convertToUser = function(body, callback){
         callback(null, user);
     }
     else{
-        callback({name : 'CONVERSION_ERROR'}, null);
+        callback({name : 'CONVERSION_ERROR'});
     }
 }
 
