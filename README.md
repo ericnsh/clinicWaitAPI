@@ -18,7 +18,7 @@ ClinicWait uses DocumentDB (Microsoft NoSQL database) as to store its data. So t
 ### Configuration
 To get the API to work, you will need to get you a Google places API Key and A DocumentDB account.
 
-add a folder named config in the root repository. add a file named config.js into it and copy the following code :
+First, add a folder named config in the root repository. Then add a file named config.js into it and copy the following code inside:
 
 module.exports = {   
     GOOGLE_PLACES_API_KEY : 'your google place api key',   
@@ -27,6 +27,20 @@ module.exports = {
     AZURE_USERS_COLLECTION_ID : 'your document db collection users collection id',   
     AZURE_USERS_COLLECTION_URL : 'your document db users collection url'   
 };
+
+Now, make the following command to install all dependencies (make sure Node.js and npm are installed on your machine before).
+
+```bat
+gulp build
+```
+
+and to finish start the app with the following
+
+```bat
+node index.js
+```
+
+You can now start querying the API en have fun :)
 
 ### hosted ClinicWait 
 
