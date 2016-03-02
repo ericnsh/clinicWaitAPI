@@ -43,7 +43,13 @@ exports.findById = function (req, res){
             res.status(200).send(clinic);
         }
         else{
-            if(err.name === 'REQUEST_ERROR'){
+            if(err.name === 'CLINIC_NOT_FOUND'){
+                res.status(404).send({
+                    errorCode: 'NOT_FOUND',
+                    message: 'clinic with the id ' + req.params.id + ' was not found'
+                });
+            }
+            else if(err.name === 'REQUEST_ERROR'){
                 res.status(400).send({
                     errorCode: 'BAD_REQUEST',
                     message: 'please verify your request body'
