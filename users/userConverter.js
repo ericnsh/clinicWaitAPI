@@ -1,11 +1,13 @@
 var UUID = require("node-uuid");
+var bcrypt = require("bcrypt-nodejs");
 
 exports.convertToUser = function(body, callback){
-    if(body.name && body.email){
+    if(body.name && body.email && body.password){
         var user = {
             id : UUID.v1(),
             name : body.name,
-            email : body.email
+            email : body.email,
+            password : bcrypt.hashSync(body.password)
         };
         callback(null, user);
     }

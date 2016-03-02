@@ -10,6 +10,7 @@
   "author": "Eric Nshimiye",
   "license": "MIT",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "documentdb": "^1.5.5",
