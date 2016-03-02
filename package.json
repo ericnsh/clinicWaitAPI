@@ -14,7 +14,6 @@
     "cors": "^2.7.1",
     "documentdb": "^1.5.5",
     "express": "^4.13.4",
-    "morgan": "^1.7.0",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "request": "^2.69.0",
@@ -26,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/ericnsh/clinicWaitAPI/issues"
+  },
+  "devDependencies": {
+    "morgan": "^1.7.0"
   }
 }
