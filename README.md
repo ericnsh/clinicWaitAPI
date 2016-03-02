@@ -12,6 +12,22 @@ CliniWait is an Node.js API to improve walk-in clinics line-up systems. the API 
 
 It's actually a personal experimentation just to explore Node.js and all its underlying paradigm.
 
+### Database
+ClinicWait uses DocumentDB (Microsoft NoSQL database) as to store its data. So to use it as it you will need to configure a documentDB database. see configuration.
+
+### Configuration
+To get the API to work, you will need to get you a Google places API Key and A DocumentDB account.
+
+add a folder named config in the root repository. add a file named config.js into it and copy the following code :
+
+module.exports = {   
+    GOOGLE_PLACES_API_KEY : 'your google place api key',   
+    AZURE_DOCUMENT_DB_URI : 'your documentdb uri',   
+    AZURE_DOCUMENT_DB_PRIMARY_KEY : 'your document db primary key',   
+    AZURE_USERS_COLLECTION_ID : 'your document db collection users collection id',   
+    AZURE_USERS_COLLECTION_URL : 'your document db users collection url'   
+};
+
 ### hosted ClinicWait 
 
 ClinicWait is available in hosted version on Azure (Microsoft cloud service).   
