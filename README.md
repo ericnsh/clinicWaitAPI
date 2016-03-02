@@ -1,3 +1,5 @@
+[![Dependency Status](https://david-dm.org/ericnsh/clinicWaitAPI.svg)](https://david-dm.org/ericnsh/clinicWaitAPI)
+
 ## ClinicWAIT API
 
 CliniWait is an Node.js API to improve walk-in clinics line-up systems. the API provides interface to :   
