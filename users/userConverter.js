@@ -6,7 +6,7 @@ exports.convertToUser = function(body, callback){
         var user = {
             id : UUID.v1(),
             name : body.name,
-            email : body.email,
+            email : body.email.toLowerCase(),
             password : bcrypt.hashSync(body.password)
         };
         callback(null, user);
