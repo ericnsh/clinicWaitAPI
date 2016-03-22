@@ -32,7 +32,7 @@ exports.findById = function(req,res){
     users.findById(req.params.id, function(err, user){
        if(!err){
            if(user){
-               res.status(200).send(user);
+               res.status(200).send(user.toDTO());
            }
            else{
                res.status(404).send({
@@ -62,7 +62,7 @@ exports.findByEmail = function(req, res){
     users.findByEmail(req.query.email, function(err, user){
         if(!err){
            if(user){
-               res.status(200).send(user);
+               res.status(200).send(user.toDTO());
            }
            else{
                res.status(404).send({

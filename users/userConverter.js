@@ -1,6 +1,6 @@
 var User = require("../users/userModel").model; 
 
-exports.convertToUser = function(body, callback){
+exports.convertToNewUser = function(body, callback){
     if(body.name && body.email && body.password){
         var user = new User();
         user.name = body.name;
@@ -14,10 +14,11 @@ exports.convertToUser = function(body, callback){
     }
 }
 
-exports.convertToDTO = function(body, callback){
+exports.convertToUser = function(body, callback){
     var user = new User();
     user.id = body.id;
     user.name = body.name;
     user.email = body.email;
+    user.password = body.password;
     callback(null, user);
 }

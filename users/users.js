@@ -11,7 +11,7 @@ function queryClient(query, callback){
     client.queryDocuments(collectionURL, query).toArray(function(err, results){
         if(!err){
             if(results[0]){
-                converter.convertToDTO(results[0], function(conversionError, user){
+                converter.convertToUser(results[0], function(conversionError, user){
                     if(conversionError){
                         console.error('error while converting user with id '+ user.id + ' to DTO')
                         return callback({name : 'CONVERSION_ERROR'});
@@ -34,14 +34,14 @@ function queryClient(query, callback){
 }
 
 function add(body, callback){
-    converter.convertToUser(body, function(conversionError, convertedUser){
+    converter.convertToNewUser(body, function(conversionError, convertedUser){
         if(!conversionError){
             checkExistence(convertedUser.email, function(existanceCheckingError, results){
                 if(!existanceCheckingError){
                     var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
                     client.createDocument(collectionURL, convertedUser, function(creationError, createdUser){
                         if(!creationError){
-                            converter.convertToDTO(createdUser, function(err, dto){
+                            converter.convertToUser(createdUser, function(err, dto){
                                 if(err){
                                     console.error('error while converting user with id '+ createdUser.id + ' to DTO');
                                     return callback({name : 'DTO_CONVERSION_ERROR'});

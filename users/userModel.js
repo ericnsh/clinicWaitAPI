@@ -16,11 +16,11 @@ exports.model = function(){
     };
     
     this.toDTO = function(){
-        var obj = this.toJSON();
+        var self = this;
         var dto = {
-            id : obj.id,
-            name : obj.name,
-            email : obj.email
+            id : self.id,
+            name : self.name,
+            email : self.email
         };
         return dto;
     }
