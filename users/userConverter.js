@@ -1,14 +1,12 @@
-var UUID = require("node-uuid");
-var bcrypt = require("bcrypt-nodejs");
+var User = require("../users/userModel").model; 
 
 exports.convertToUser = function(body, callback){
     if(body.name && body.email && body.password){
-        var user = {
-            id : UUID.v1(),
-            name : body.name,
-            email : body.email.toLowerCase(),
-            password : bcrypt.hashSync(body.password)
-        };
+        var user = new User();
+        user.name = body.name;
+        user.email = body.email;
+        user.password = user.generateHash(body.password);
+        user.generateId();
         callback(null, user);
     }
     else{
@@ -16,11 +14,10 @@ exports.convertToUser = function(body, callback){
     }
 }
 
-exports.convertToDTO = function(user, callback){
-    var dto = {
-        id : user.id,
-        name : user.name,
-        email : user.email
-    }
-    callback(null, dto);
+exports.convertToDTO = function(body, callback){
+    var user = new User();
+    user.id = body.id;
+    user.name = body.name;
+    user.email = body.email;
+    callback(null, user);
 }
