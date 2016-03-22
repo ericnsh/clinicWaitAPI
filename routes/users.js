@@ -12,6 +12,12 @@ exports.add = function(req, res){
                     message: 'please verify your request body'
                 });
             }
+            else if(err.name === 'ALREADY_EXISTS'){
+                res.status(409).send({
+                    errorCode: 'ALREADY_EXISTS',
+                    message: 'user with email ' + req.body.email + ' already exists'
+                });
+            }
             else{
                 res.status(500).send({
                     errorCode: 'INTERNAL_ERROR',

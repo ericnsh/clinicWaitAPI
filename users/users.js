@@ -11,9 +11,9 @@ function queryClient(query, callback){
     client.queryDocuments(collectionURL, query).toArray(function(err, results){
         if(!err){
             if(results[0]){
-                converter.convertToDTO(results[0], function(conversionError,user){
+                converter.convertToDTO(results[0], function(conversionError, user){
                     if(conversionError){
-                        console.error('error while converting user with id '+ createdUser.id + ' to DTO')
+                        console.error('error while converting user with id '+ user.id + ' to DTO')
                         return callback({name : 'CONVERSION_ERROR'});
                     }
                     else{
@@ -36,23 +36,32 @@ function queryClient(query, callback){
 function add(body, callback){
     converter.convertToUser(body, function(conversionError, convertedUser){
         if(!conversionError){
-            var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
-            client.createDocument(collectionURL, convertedUser, function(creationError, createdUser){
-                if(!creationError){
-                    converter.convertToDTO(createdUser, function(err, dto){
-                        if(err){
-                            console.error('error while converting user with id '+ createdUser.id + ' to DTO');
-                            return callback({name : 'DTO_CONVERSION_ERROR'});
+            checkExistence(convertedUser.email, function(existanceCheckingError, results){
+                if(!existanceCheckingError){
+                    var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
+                    client.createDocument(collectionURL, convertedUser, function(creationError, createdUser){
+                        if(!creationError){
+                            converter.convertToDTO(createdUser, function(err, dto){
+                                if(err){
+                                    console.error('error while converting user with id '+ createdUser.id + ' to DTO');
+                                    return callback({name : 'DTO_CONVERSION_ERROR'});
+                                }
+                                else{
+                                    return callback(null, dto);
+                                }
+                            });
                         }
                         else{
-                            return callback(null, dto);
+                            console.error('caught on user creation : ');
+                            console.error(creationError);
+                            callback({name : 'DB_CONNECTION_ERROR'});
                         }
                     });
                 }
-                else{
-                    console.error('caught on user creation : ');
-                    console.error(creationError);
-                    callback({name : 'DB_CONNECTION_ERROR'});
+                else {
+                    console.error('caught on user existance checkin : ');
+                    console.error(existanceCheckingError);
+                    callback(existanceCheckingError);
                 }
             });
         }
@@ -72,6 +81,17 @@ function findById(id, callback){
 function findByEmail(email, callback){
     var query = "SELECT TOP 1 * FROM docs d WHERE d.email='" + email + "'";
     queryClient(query,callback);
+}
+
+function checkExistence(email, callback){
+    findByEmail(email, function(err, user){
+        if(err && err.name === 'USER_NOT_FOUND'){
+            callback(null, user);
+        }
+        else{
+            callback({name: 'ALREADY_EXISTS'});
+        }
+    })
 }
 
 process.on('uncaughtException', function (err) {
