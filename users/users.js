@@ -28,7 +28,7 @@ function queryClient(query, callback){
         else{
             console.error('request error on users.js getUserById : ');
             console.error(err);
-            return callback(err);
+            return callback({name : 'DB_CONNECTION_ERROR'});
         }
     });
 }
@@ -87,6 +87,9 @@ function checkExistence(email, callback){
     findByEmail(email, function(err, user){
         if(err && err.name === 'USER_NOT_FOUND'){
             callback(null, user);
+        }
+        else if(err && err.name === 'DB_CONNECTION_ERROR'){
+            callback(err);
         }
         else{
             callback({name: 'ALREADY_EXISTS'});
