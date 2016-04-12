@@ -62,3 +62,25 @@ exports.findById = function(req, res){
         }
     });
 }
+
+exports.cancel = function(req, res){
+    waitings.cancel(req.params.id, function(err, waiting){
+       if(!err){
+           res.status(200).send({ deleted : waiting });
+       }
+       else{
+           if(err.name === 'WAITING_NOT_FOUND'){
+               res.status(404).send({
+                    errorCode: 'NOT_FOUND',
+                    message: 'waiting with the id ' + req.params.id + ' was not found.'
+                });
+           }
+           else{
+               res.status(500).send({
+                    errorCode: 'INTERNAL_ERROR',
+                    message: 'please try again or contact the admin if problem persists.'
+                });
+           }
+       } 
+    });
+}

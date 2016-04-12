@@ -12,5 +12,6 @@ router.post('/clinics/:id/waitings/', waitings.add);
 router.get('/search/users', users.findByEmail);
 router.get('/search/clinics', clinics.search);
 router.get('/waitings/:id', waitings.findById);
+router.delete('/waitings/:id', waitings.cancel);
 
 module.exports = router;

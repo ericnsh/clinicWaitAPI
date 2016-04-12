@@ -8,6 +8,33 @@ const endpoint = config.AZURE_DOCUMENT_DB_URI;
 const authorisationKey = config.AZURE_DOCUMENT_DB_PRIMARY_KEY;
 const collectionURL = config.AZURE_WAITINGS_COLLECTION_URL;
 
+function cancel(id, callback){
+    var query = "SELECT TOP 1 * FROM docs d WHERE d.id='" + id + "'";
+    var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
+    client.queryDocuments(collectionURL, query).toArray(function(err, results){
+        if(!err){
+            if(results[0]){
+                client.deleteDocument(results[0]._self, function(delError){
+                    if(delError){
+                        console.error('request error on waiting.js cancel : ');
+                        console.error(delError);
+                    }
+                    var deleted = converter.convertToWaitingSync(results[0]);
+                    return callback(null, deleted);
+                });
+            }
+            else{
+                return callback({name : 'WAITING_NOT_FOUND'});
+            }
+        }
+        else{
+            console.error('request error on waiting.js cancel : ');
+            console.error(err);
+            return callback({name : 'DB_CONNECTION_ERROR'});
+        }
+    });
+}
+
 function queryClient(query, callback){
     var client = new DocumentClient(endpoint, { "masterKey" : authorisationKey});
     client.queryDocuments(collectionURL, query).toArray(function(err, results){
@@ -188,6 +215,9 @@ exports.model = {
     },
     findByID : function(id, callback){
         findByID(id, callback); 
+    },
+    cancel : function(id, callback){
+        cancel(id, callback); 
     },
     getWaitings : function(clinicID, callback){
         calculateWaitings(clinicID, callback);
