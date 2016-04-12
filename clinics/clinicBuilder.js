@@ -11,8 +11,7 @@ exports.convertToClinicList = function(body, location, callback){
             name : result.name,
             vicinity : result.vicinity,
             distance : distance,
-            location : clinicLocation,
-            waitings : 0
+            location : clinicLocation
         });
     });
     return callback( null, { "clinics" : clinics } );
