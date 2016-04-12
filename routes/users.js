@@ -14,7 +14,7 @@ exports.add = function(req, res){
             }
             else if(err.name === 'ALREADY_EXISTS'){
                 res.status(409).send({
-                    errorCode: 'ALREADY_EXISTS',
+                    errorCode: 'CONFLICT',
                     message: 'user with email ' + req.body.email + ' already exists'
                 });
             }
@@ -36,7 +36,7 @@ exports.findById = function(req,res){
            }
            else{
                res.status(404).send({
-                   errorCode: 'USER_NOT_FOUND',
+                   errorCode: 'NOT_FOUND',
                    message: 'User with id ' + req.params.id + ' was not found'
                });
            }
@@ -44,7 +44,7 @@ exports.findById = function(req,res){
        else{
            if(err.name === 'USER_NOT_FOUND'){
                res.status(404).send({
-                   errorCode: 'USER_NOT_FOUND',
+                   errorCode: 'NOT_FOUND',
                    message: 'User with id ' + req.params.id + ' was not found'
                });
            }
@@ -66,7 +66,7 @@ exports.findByEmail = function(req, res){
            }
            else{
                res.status(404).send({
-                   errorCode: 'USER_NOT_FOUND',
+                   errorCode: 'NOT_FOUND',
                    message: 'User with email ' + req.query.email + ' was not found'
                });
            }
@@ -74,7 +74,7 @@ exports.findByEmail = function(req, res){
        else{
            if(err.name === 'USER_NOT_FOUND'){
                res.status(404).send({
-                   errorCode: 'USER_NOT_FOUND',
+                   errorCode: 'NOT_FOUND',
                    message: 'User with email ' + req.query.email + ' was not found'
                });
            }
