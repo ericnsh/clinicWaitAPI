@@ -28,9 +28,7 @@ function populateClinicInformation(waiting, callback){
             waiting.clinic.name = clinic.name;
             waiting.clinic.address = clinic.address;
             waiting.clinic.phone_number = clinic.phone_number;
-            waiting.clinic.location = clinic.location;
-            waiting.clinic.waitings = clinic.waitings;
-            
+            waiting.clinic.location = clinic.location;         
             callback(null, waiting);
         }
         else{

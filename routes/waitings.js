@@ -30,13 +30,26 @@ exports.add = function(req, res){
                     message: 'clinic with the id ' + req.params.id + ' was not found.'
                 });
             }
-            else
-            {
+            else {
                 res.status(500).send({
                     errorCode: 'INTERNAL_ERROR',
                     message: 'please try again or contact the admin if problem persists.'
                 });
             }
+        }
+    });
+}
+
+exports.findById = function(req, res){
+    waitings.findByID(req.params.id, function(err, waiting){
+        if(!err){
+            res.status(200).send({waiting : waiting});
+        }
+        else{
+            res.status(400).send({
+                errorCode: 'BAD_REQUEST',
+                message: 'please verify your request body'
+            });
         }
     });
 }
