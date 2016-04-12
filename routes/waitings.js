@@ -6,7 +6,13 @@ exports.add = function(req, res){
             res.status(201).send({waiting : waiting});
         }      
         else{
-            if(err.name === 'ALREADY_EXISTS'){
+            if(err.name === 'CONVERSION_ERROR'){
+                res.status(400).send({
+                    errorCode: 'BAD_REQUEST',
+                    message: 'please verify your request body'
+                });
+            }
+            else if(err.name === 'ALREADY_EXISTS'){
                 res.status(409).send({
                     errorCode: 'ALREADY_EXISTS',
                     message: 'user with id ' + req.body.user_id + ' is already lined-up.'
