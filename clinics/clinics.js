@@ -1,6 +1,7 @@
 var qs = require('querystring');
 var request = require('request');
 var clinicBuilder = require('./clinicBuilder');
+var waitings = require("../waitings/waitings").model;
 
 const SEARCH_END_POINT = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
 const DETAILS_END_POINT = 'https://maps.googleapis.com/maps/api/place/details/json?';
@@ -20,7 +21,13 @@ function queryGooglePlacesDetails(url, location, callback){
                             return callback({name : 'CONVERSION_ERROR'});
                         }
                         else{
-                            return callback(null, clinic);
+                            waitings.getWaitings(clinic.id, function(err, count){
+                                if(!err){
+                                    clinic.waitings = count;                            
+                                }                               
+                                return callback(null, clinic);
+                            });
+                            
                         }
                     });
                 }
