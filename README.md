@@ -29,7 +29,7 @@ module.exports = {
     AZURE_USERS_COLLECTION_ID : 'your document db users collection id',   
     AZURE_USERS_COLLECTION_URL : 'your document db users collection uri',     
     AZURE_WAITINGS_COLLECTION_ID : 'your document db waitings collection id',     
-    AZURE_WAITINGS_COLLECTION_URL : 'your document db users collection uri'     
+    AZURE_WAITINGS_COLLECTION_URL : 'your document db waitings collection uri'     
 };
 
 Now, make the following command to install all dependencies (make sure Node.js and npm are installed on your machine before).
