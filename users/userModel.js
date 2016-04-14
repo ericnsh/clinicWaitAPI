@@ -20,7 +20,8 @@ exports.model = function(){
         var dto = {
             id : self.id,
             name : self.name,
-            email : self.email
+            email : self.email,
+            health_insurance_number : self.health_insurance_number
         };
         return dto;
     }

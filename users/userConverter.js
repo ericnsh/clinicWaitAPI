@@ -1,11 +1,12 @@
 var User = require("../users/userModel").model; 
 
-exports.convertToNewUser = function(body, callback){
-    if(body.name && body.email && body.password){
+exports.convertToNewUser = function(obj, callback){
+    if(obj.name && obj.email && obj.password && obj.health_insurance_number){
         var user = new User();
-        user.name = body.name;
-        user.email = body.email;
-        user.password = user.generateHash(body.password);
+        user.name = obj.name;
+        user.email = obj.email;
+        user.health_insurance_number = obj.health_insurance_number;
+        user.password = user.generateHash(obj.password);
         user.generateId();
         callback(null, user);
     }
@@ -14,11 +15,12 @@ exports.convertToNewUser = function(body, callback){
     }
 }
 
-exports.convertToUser = function(body, callback){
+exports.convertToUser = function(obj, callback){
     var user = new User();
-    user.id = body.id;
-    user.name = body.name;
-    user.email = body.email;
-    user.password = body.password;
+    user.id = obj.id;
+    user.name = obj.name;
+    user.email = obj.email;
+    user.password = obj.password;
+    user.health_insurance_number = obj.health_insurance_number
     callback(null, user);
 }
