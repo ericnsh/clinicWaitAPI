@@ -11,6 +11,7 @@ router.get('/clinics/:id', clinics.findById);
 router.post('/clinics/:id/waitings/', waitings.add);
 router.get('/search/users', users.findByEmail);
 router.get('/search/clinics', clinics.search);
+router.get('/search/waitings', waitings.findByUserId);
 router.get('/waitings/:id', waitings.findById);
 router.delete('/waitings/:id', waitings.cancel);
 

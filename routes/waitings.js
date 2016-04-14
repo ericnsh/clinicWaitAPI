@@ -57,8 +57,29 @@ exports.findById = function(req, res){
                     errorCode: 'INTERNAL_ERROR',
                     message: 'please try again or contact the admin if problem persists.'
                 });
+            }           
+        }
+    });
+}
+
+exports.findByUserId = function(req, res){
+    waitings.findByUserID(req.query.userid, function(err, waiting) {
+        if(!err){
+            res.status(200).send({waiting : waiting});
+        }
+        else{
+            if(err.name === 'WAITING_NOT_FOUND'){
+                res.status(404).send({
+                    errorCode: 'NOT_FOUND',
+                    message: 'waiting for user with the id ' + req.query.userid + ' was not found.'
+                });
             }
-            
+            else {
+                res.status(500).send({
+                    errorCode: 'INTERNAL_ERROR',
+                    message: 'please try again or contact the admin if problem persists.'
+                });
+            }          
         }
     });
 }

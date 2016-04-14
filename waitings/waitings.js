@@ -159,6 +159,11 @@ function findByID(id, callback){
     queryClient(query, callback);
 }
 
+function findByUserID(userID, callback){
+    var query = "SELECT TOP 1 * FROM docs d WHERE d.user.id='" + userID + "'";
+    queryClient(query, callback);
+}
+
 function calculateWaitings(clinicID, callback){
     var query = "SELECT * FROM docs d WHERE d.clinic.id='" + clinicID + "'";
     queryClientForMultipleResults(query, function(err, results){
@@ -215,6 +220,9 @@ exports.model = {
     },
     findByID : function(id, callback){
         findByID(id, callback); 
+    },
+    findByUserID : function (userID, callback) {
+        findByUserID(userID, callback);
     },
     cancel : function(id, callback){
         cancel(id, callback); 
