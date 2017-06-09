@@ -2,7 +2,7 @@
 
 ## ClinicWAIT API
 
-CliniWait is an Node.js API perform walk-in clinics line-up system. the API provides interface to :   
+ClinicWait is an Node.js API to performs some walk-in clinics line-up operations. the API provides interface to :   
 
 * search a walk-in clinic based on geolocation*   
 * know how engorged a clinic is before going there   
